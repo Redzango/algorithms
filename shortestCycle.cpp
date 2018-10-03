@@ -3,59 +3,55 @@
 #include <bitset>
 using namespace std;
 
-bool isIn(int elm, vector<int> vec){
+bool isIn(int elm,bitset<23> set){
     bool here = false;
-    for(int i=0;i<vec.size();++i){
-        if(vec[i]==elm) here = true;
+    for(int i=0;i<set.size();++i){
+        if(set[i]==elm) here = true;
     }
     return here;
 }
 
-int smallElem(vector<int> vec){
-    int s = vec[0];
-    for(int i=0;i<vec.size();++i) if(s>vec[i]) s=vec[i];
-    return s;
+bitset<23> sub(int index, bitset<23> bit){
+    bitset<23> n = bit;
+    n.reset(index)=0;
+    return n;
 }
 
-bitset sub(int index, bitset bit){
-    bitset[index]=0;
-    return bitset;
-}
-
-int shortPath(const vector<vector<int>>&connects, vector<int> visited, int here, int prev){
-    int n = connects.size();
-    if(prev==0) return connects[0][here];
-    else{
-        visited.push_back(here);
-        vector<int> weights;
-        for(int i=1;i<n;++i){
-            if(!isIn(i,visited)) {
-                weights.push_back(shortPath(connects,visited,i);
-            }
-        }
-        return smallElem(weights);
+bool isEq(bitset<23> S, int c){
+    bool eq = true;
+    for(int i=0;i<S.size();i++){
+        if(S[0]!=0 && i!=c) eq=false;
     }
+    if(S[c]!=1) eq=false;
+    return eq;
+}
+
+int recurs(const vector<vector<int>>&connects, bitset<23> S, int c, vector<vector<int>>&K){
+    if(isEq(S,c)) return connects[0][c];
+    if(K[S.to_ulong()][c]>=0) return K[S.to_ulong()][c];
+    int best = 1000000000;
+    for(int x=1;x<=connects.size()-1;x++){
+        if(x!=c && isIn(x,S))
+           best = min(best,recurs(connects,sub(c,S),x,K)+connects[x][c]);
+    }
+    K[S.to_ulong()][c]=best;
+    return best;
 }
 
 int shortestCycle(const vector<vector<int>>&connects){
     int n = connects.size();
     
-    bitset<23> visited;
-    vector<vector<int>> K(1<<connects.size())(vector<int>(n));
-    K[visited.to_ulong()][0]=0;
-    for(int i=1;i<=n;++i){
-    	visited.set(i);
-	K[visited.to_ulong][i]=connects[0][i];
-	visited.reset(i);
-    }
+    bitset<23> S;
 
-    for(int c=1;c<n;c++){
-    	bitset subd = sub(c,visited);
-	vector<int>
-        for(int x=1;x<n;++x)
-        if(subd[x]=="1") K[visited.to_ulong()][c]=shortPath(connects,visited,c,x);
-    }
+    vector<vector<int>> K(1<<connects.size(),vector<int>(n));
     
-    return smallElem(weights);
+    int best = 10000000;
+    S.flip();
+
+    K[S.to_ulong()][0]=0;
+    for(int x=1;x<=n-1;x++){
+        best=min(best,recurs(connects,S,x,K)+connects[x][0]);
+    }
+    return best;
 }
 
