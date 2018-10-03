@@ -40,15 +40,18 @@ int shortPath(const vector<vector<int>>&connects, vector<int> visited, int here,
 int shortestCycle(const vector<vector<int>>&connects){
     int n = connects.size();
     
-    bitset<n> visited;
-    visited.flip();
-    vector<vector<int>> K(visited.to_ulong())(n);
-    visited.flip();
-    K(visited.to_ulong())(0)=0;
-    visited.flip();
+    bitset<23> visited;
+    vector<vector<int>> K(1<<connects.size())(vector<int>(n));
+    K[visited.to_ulong()][0]=0;
+    for(int i=1;i<=n;++i){
+    	visited.set(i);
+	K[visited.to_ulong][i]=connects[0][i];
+	visited.reset(i);
+    }
 
-    for(int c=1;c<n;++c){
+    for(int c=1;c<n;c++){
     	bitset subd = sub(c,visited);
+	vector<int>
         for(int x=1;x<n;++x)
         if(subd[x]=="1") K[visited.to_ulong()][c]=shortPath(connects,visited,c,x);
     }
