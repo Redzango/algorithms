@@ -37,8 +37,12 @@ void getCodes(struct node* root, vector<bool> cd , vector<code> &v){
     if(root->ch != '$'){
         v.push_back(make_pair(root->ch,cd));
     }
-    getCodes(root->left,cd.push_back(false),v);
-    getCodes(root->right,cd.push_back(true),v);
+    auto recF = cd;
+    auto recT = cd;
+    recF.push_back(false);
+    recT.push_back(true);
+    getCodes(root->left,recF,v);
+    getCodes(root->right,recT,v);
 }
 
 vector<bool> findCode(char c, vector<code> v){
