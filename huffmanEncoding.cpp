@@ -3,6 +3,7 @@
 #include <tuple>
 #include <queue>
 #include <cstdlib>
+#include <unordered_map>
 using namespace std;
 typedef pair<char,vector<bool>> code;
 
@@ -56,18 +57,14 @@ void huffman(const string &message, vector<bool> &encoding){
     int n = message.size();
 
     priority_queue<node*,vector<node*>,compare> que;
+    
+    unordered_map<char,int> freq;
 
-    vector<char> seen;
     for(int i=0;i<n;i++){
-        char c = message[i];
-        if(!isIn(seen,c)){
-            int count = 0;
-            for(int j=0;j<n;j++){
-                if(message[i]==message[j]) count += 1;
-            }
-            que.push(new node(c,count));
-        }
-        seen.push_back(c);
+        freq[message[i]] += 1;
+    }
+    for(pair<char,int> elem : freq){
+        que.push(new node(elem.first,elem.second));
     }
 
     while(que.size() != 1){
