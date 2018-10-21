@@ -33,24 +33,19 @@ bool isIn(vector<char> v, char c){
     return ret;
 }
 
-void getCodes(struct node* root, vector<bool> cd , vector<code> &v){
+void getCodes(struct node* root, vector<bool> cd, unordered_map<char,vector<bool>> &codes){
     if(!root) return;
     if(root->ch != '$'){
-        v.push_back(make_pair(root->ch,cd));
+        codes[root->ch] = cd;
     }
     auto recF = cd;
     auto recT = cd;
     recF.push_back(false);
     recT.push_back(true);
-    getCodes(root->left,recF,v);
-    getCodes(root->right,recT,v);
+    getCodes(root->left,recF,codes);
+    getCodes(root->right,recT,codes);
 }
 
-vector<bool> findCode(char c, vector<code> v){
-    for(int i=0;i<v.size();i++){
-        if (v[i].first == c) return v[i].second;
-    }
-}
 
 void huffman(const string &message, vector<bool> &encoding){
     
@@ -79,13 +74,13 @@ void huffman(const string &message, vector<bool> &encoding){
 
         que.push(top);
     }
-
-    vector<code> v;
-    vector<bool> bools;
-    getCodes(que.top(),bools,v);
+    
+    unordered_map<char,vector<bool>> codes;
+    vector<bool> boolCount;
+    getCodes(que.top(),boolCount,codes);
 
     for(int i=0;i<n;i++){
-        vector<bool> cd = findCode(message[i],v);
+        vector<bool> cd = codes[message[i]];
         encoding.insert(encoding.end(),cd.begin(),cd.end());
     }
 }
