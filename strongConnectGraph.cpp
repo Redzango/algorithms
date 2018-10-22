@@ -4,17 +4,6 @@
 #include <set>
 using namespace std;
 
-struct node {
-    int index;
-    bool visited;
-    node *left, *right;
-    node(int index, bool visited){
-        left = right = NULL;
-        this->index = index;
-        this->visited = visited;
-    }
-};
-
 void DFS(stack<int> &s, set<int> &visited,const vector<vector<int>> &roadTo, int index){
     visited.insert(index);
     for (int i=0;i<roadTo[index].size();i++){
