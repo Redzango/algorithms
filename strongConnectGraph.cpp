@@ -46,7 +46,7 @@ vector<set<int>> drivingLegal(const vector<vector<int>> &roadTo){
     //first DFS
     for(int i = 0; i<n; i++){
         if(visited.find(i)==visited.end()){
-            DFS(&s,&visited,roadTo,i);
+            DFS(s,visited,roadTo,i);
         }
     }
     
@@ -61,7 +61,7 @@ vector<set<int>> drivingLegal(const vector<vector<int>> &roadTo){
     //set visited empty
     visited.clear();
 
-    vector<set<int>> SCC;
+    vector<set<int>> sCC;
     //second DFS
     int index = 0;
     while(!s.empty()){
@@ -69,9 +69,9 @@ vector<set<int>> drivingLegal(const vector<vector<int>> &roadTo){
         s.pop();
 
         if(visited.find(i)==visited.end()){
-            DFSinv(&SSC,&visited,&revRoad,i,index);
+            DFSinv(sCC,visited,revRoad,i,index);
         }
         ++index;
     }
-    return SSC;
+    return sCC;
 }
