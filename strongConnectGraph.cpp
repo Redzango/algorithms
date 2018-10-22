@@ -16,10 +16,10 @@ struct node {
 };
 
 void DFS(stack<int> &s, set<int> &visited,const vector<vector<int>> &roadTo, int index){
+    visited.insert(index);
     for (int i=0;i<roadTo[index].size();i++){
         int current = roadTo[index][i];
         if(visited.find(current)==visited.end()){
-            visited.insert(index);
             DFS(s,visited,roadTo,current);
         }
     }
@@ -27,10 +27,10 @@ void DFS(stack<int> &s, set<int> &visited,const vector<vector<int>> &roadTo, int
 }
 
 void DFSinv(vector<set<int>> &s, set<int> &visited,const vector<vector<int>> &roadTo, int index, int set){
+    visited.insert(index);
     for (int i=0;i<roadTo[index].size();i++){
         int current = roadTo[index][i];
         if(visited.find(current)==visited.end()) {
-            visited.insert(index);
             DFSinv(s,visited,roadTo,current,set);
         }
     }
