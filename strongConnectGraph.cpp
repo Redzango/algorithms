@@ -58,9 +58,23 @@ vector<set<int>> drivingLegal(const vector<vector<int>> &roadTo){
         s.pop();
 
         if(visited.find(i)==visited.end()){
+            sCC.push_back(set<int>());
             DFSinv(sCC,visited,revRoad,i,index);
+            ++index;
         }
-        ++index;
     }
     return sCC;
 }
+
+//testing
+int main(){
+    vector<vector<int>> roads = {{2,3},{0},{1},{4},{}};
+    vector<set<int>> comps = drivingLegal(roads);
+    for(auto i : comps){ 
+        for(auto j : i){ 
+            cout<<j<<' ';
+        }
+        cout<<"\n";
+    }
+}
+
