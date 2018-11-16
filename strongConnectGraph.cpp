@@ -40,13 +40,12 @@ vector<set<int>> drivingLegal(const vector<vector<int>> &roadTo){
     }
     
     //find transverse graph
-    vector<vector<int>> revRoad;
+    vector<vector<int>> revRoad(n);
     for(int i=0;i<n;i++){
         for(int j : roadTo[i]){
             revRoad[j].push_back(i);
         }
     }
-
     //set visited empty
     visited.clear();
 
@@ -65,7 +64,7 @@ vector<set<int>> drivingLegal(const vector<vector<int>> &roadTo){
     }
     return sCC;
 }
-
+/*
 //testing
 int main(){
     vector<vector<int>> roads = {{2,3},{0},{1},{4},{}};
@@ -76,5 +75,5 @@ int main(){
         }
         cout<<"\n";
     }
-}
+}*/
 
