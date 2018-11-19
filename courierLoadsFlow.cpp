@@ -49,8 +49,8 @@ vector<tuple<int,int,int>> courierLoads(const vector<int> &orders,const vector<t
         rgraph[so][si]=w;
     }
     for(int i=0;i<t;i++){
-        graph[i][t] = 100000000;
-        rgraph[i][t] = 100000000;
+        graph[i][t] = orders[i];
+        rgraph[i][t] = orders[i];
     }
     vector<int> parent(n,-1);
     
@@ -63,8 +63,8 @@ vector<tuple<int,int,int>> courierLoads(const vector<int> &orders,const vector<t
         }
         for(int v=s;v!=0;v=parent[v]){
             auto u=parent[v];
-            rgraph[u][v] = rgraph[u][v] - path_flow;
-            rgraph[v][u] = rgraph[v][u] + path_flow;
+            if(rgraph[u][v] >0) rgraph[u][v] = rgraph[u][v] - path_flow;
+            else rgraph[v][u] = rgraph[v][u] + path_flow;
         }
     }
     
