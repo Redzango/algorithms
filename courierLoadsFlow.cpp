@@ -53,9 +53,9 @@ vector<tuple<int,int,int>> courierLoads(const vector<int> &orders,const vector<t
         rgraph[i][t] = orders[i];
     }
     vector<int> parent(n,-1);
-    
-    while (bfs(rgraph,parent)){
-        cout<<1;
+    int lim = 0;
+    while (bfs(rgraph,parent) && lim <3){
+        cout<<rgraph[0][2];
         int path_flow = 100000000;
         for(int v=t;v!=s;v=parent[v]){
             auto u = parent[v];
@@ -63,9 +63,10 @@ vector<tuple<int,int,int>> courierLoads(const vector<int> &orders,const vector<t
         }
         for(int v=s;v!=0;v=parent[v]){
             auto u=parent[v];
-            if(rgraph[u][v] >0) rgraph[u][v] = rgraph[u][v] - path_flow;
-            else rgraph[v][u] = rgraph[v][u] + path_flow;
+            rgraph[u][v] = rgraph[u][v] - path_flow;
+            rgraph[v][u] = rgraph[v][u] + path_flow;
         }
+        ++lim;
     }
     
     bool pass = true;
@@ -82,9 +83,9 @@ vector<tuple<int,int,int>> courierLoads(const vector<int> &orders,const vector<t
 }
 
 int main(){
-    vector<tuple<int,int,int>> routs = {make_tuple(0,1,1),make_tuple(0,2,1),make_tuple(1,2,1)};
+    vector<tuple<int,int,int>> routs = {make_tuple(0,1,3),make_tuple(0,2,1),make_tuple(1,2,1)};
     vector<int> orders = {0,1,2};
     vector<tuple<int,int,int>> vals = courierLoads(orders,routs);
-    cout<<vals.size();
-    cout<<" "<<get<2>(vals[2]);
+    //cout<<vals.size();
+    //cout<<" "<<get<2>(vals[2]);
 }
